@@ -10,86 +10,111 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous"
     />
+
     <style>
         body.dark-mode {
             background-color: #121212;
-            color: #f1f1f1;
+            color: #e4e4e4;
         }
 
-        nav.dark-mode, footer.dark-mode {
-            background-color: #1f1f1f !important;
+        .dark-mode .navbar {
+            background-color: #1c1c1c !important;
         }
 
-
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 0.75rem 0;
-            background-color: #f8f9fa;
+        .dark-mode .card {
+            background-color: #1e1e1e;
+            color: #ddd;
+            border-color: #333;
         }
 
-        footer.dark-mode {
-            background-color: #1f1f1f !important;
-            color: #f1f1f1;
+        .dark-mode input.form-control,
+        .dark-mode select.form-select,
+        .dark-mode textarea.form-control {
+            background-color: #2b2b2b;
+            border-color: #444;
+            color: #eee;
         }
 
-        main {
-            padding-bottom: 70px;
+        .dark-mode input.form-control:focus,
+        .dark-mode select.form-select:focus {
+            background-color: #333;
+            border-color: #666;
+            color: #fff;
+        }
+
+        .dark-mode .btn-outline-secondary {
+            color: #f0f0f0;
+            border-color: #777;
+        }
+
+        .dark-mode .btn-outline-secondary:hover {
+            background-color: #555;
+        }
+
+        .dark-mode footer {
+            border-top: 1px solid #333;
+            color: #aaa;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover {
+            color: #fff;
+        }
+
+        footer a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4" id="navbar">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/jogos}">Biblioteca de Jogos</a>
-        <button class="btn btn-outline-light ms-auto" id="theme-toggle">🌙</button>
+        <button id="themeToggle" class="theme-toggle ms-auto" title="Alterar tema">🌓</button>
     </div>
 </nav>
 
-<main class="container" id="main-content">
+<main class="container">
     <div th:replace="${content}"></div>
 </main>
 
-<footer id="footer" class="text-center">
-    <p>&copy; Biblioteca de Jogos 2025 | Desenvolvedor: Carlos Eduardo Zaul Domingos -
-        <a href="https://github.com/CarlosEZaul" target="_blank">GitHub</a>
+<footer class="container text-center mt-5 py-3">
+    <p>
+        &copy; 2025 <strong>Biblioteca de Jogos</strong> | Desenvolvido por
+        <a href="https://github.com/CarlosEZaul/bibliotecajogos" target="_blank">Carlos Eduardo Zaul Domingos</a>
     </p>
 </footer>
+
+<script>
+    const body = document.body;
+    const themeBtn = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme === 'dark') body.classList.add('dark-mode');
+
+    themeBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+    });
+</script>
 
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"
 ></script>
-
-<script>
-    const toggleButton = document.getElementById('theme-toggle');
-    const body = document.body;
-    const navbar = document.getElementById('navbar');
-    const footer = document.getElementById('footer');
-
-
-    if (localStorage.getItem('theme') === 'dark') {
-        body.classList.add('dark-mode');
-        navbar.classList.add('dark-mode');
-        footer.classList.add('dark-mode');
-        toggleButton.textContent = '☀️';
-    }
-
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        navbar.classList.toggle('dark-mode');
-        footer.classList.toggle('dark-mode');
-
-        if (body.classList.contains('dark-mode')) {
-            toggleButton.textContent = '☀️';
-            localStorage.setItem('theme', 'dark');
-        } else {
-            toggleButton.textContent = '🌙';
-            localStorage.setItem('theme', 'light');
-        }
-    });
-</script>
 </body>
 </html>
